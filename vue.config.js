@@ -3,8 +3,9 @@
 const path = require('path')
 
 module.exports = {
-  // 基本路径
-  publicPath: './',
+  // 项目基本路径
+  // eslint-disable-next-line eqeqeq
+  publicPath: process.env.NODE_ENV == 'production' ? '/lpg-manage-vue' : '/lpg-manage-vue',
   // 构建时的输出目录
   outputDir: 'dist',
   // 构建时放置生成的静态资源
@@ -16,7 +17,19 @@ module.exports = {
   devServer: {
     port: 8081,
     proxy: { // 做请求代理用
-      '/api': {
+      '/LPGSystemManage': {
+        target: 'http://192.168.0.205:8680',
+        changeOrigin: true
+      },
+      '/LPGEntersSellsSaves': {
+        target: 'http://192.168.0.205:8680',
+        changeOrigin: true
+      },
+      '/LPGSecurityCheck': {
+        target: 'http://192.168.0.205:8680',
+        changeOrigin: true
+      },
+      '/LPGMap': {
         target: 'http://192.168.0.205:8680',
         changeOrigin: true
       },
@@ -37,5 +50,9 @@ module.exports = {
         changeOrigin: true
       }
     }
+  },
+  // 在浏览器中展示源代码
+  configureWebpack: {
+    devtool: 'source-map'
   }
 }
